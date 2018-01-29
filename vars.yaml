@@ -1,0 +1,30 @@
+---
+# NOTE: this must correspond to the domain you use for remote access.
+# In case of openshift-ansible, the default is "openshift.example.com" but if
+# you change it, you must change the value here as well!
+dns_domain: openshift.example.com
+
+# openstack keypair list
+key_name: openshift
+
+# openstack image list
+image: centos7
+
+# openstack flavor list
+flavor: m1.small
+
+# openstack security group list
+# NOTE: must have ICMP and SSH (port 22) enabled!
+security_groups: [default]
+
+
+# NOTE: if you need to specify the forwarders, you can do it here. Otherwise,
+# we'll use whatever is in the server's /etc/resolv.conf
+dns_forwarders: []
+
+
+# TODO(shadower): this option doesn't do anything right now
+# NOTE: The default value lets anyone access the server. This can be bad if
+# it's running in a public cloud (e.g. RDO Cloud). In that case, set this
+# to a subnet/subnets that are allowed to access query it.
+#allowed_cidr: ["0.0.0.0/32"]

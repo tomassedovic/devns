@@ -1,0 +1,56 @@
+---
+- hosts: localhost
+  become: no
+  gather_facts: no
+  tasks:
+  - name: Create a server
+    os_server:
+      name: openshift-dns
+      auto_ip: yes
+      flavor: "{{ flavor }}"
+      image: "{{ image }}"
+      key_name: "{{ key_name }}"
+      security_groups:  "{{ security_groups }}"
+    register: dns_server
+
+  - name: Add the server to the internal inventory
+    add_host:
+      name: "{{ dns_server.openstack.accessIPv4 }}"
+      groups: dns
+
+- hosts: dns
+  become: yes
+  gather_facts: no
+  pre_tasks:
+  - name: Wait for the the nodes to come up
+    wait_for_connection:
+  - name: Gather facts for the new nodes
+    setup:
+  - name: Verify the server can access the internet
+    command: ping -c 1 google.com
+    when: (dns_forwarders is not defined) or (not dns_forwarders)
+  - name: Read nameservers from /etc/resolv.conf
+    command: "awk '/^nameserver/ { print $2; }' /etc/resolv.conf"
+    register: resolv_conf
+    when: (dns_forwarders is not defined) or (not dns_forwarders)
+  - set_fact:
+      final_dns_forwarders: "{{ resolv_conf.stdout_lines }}"
+    when: "'stdout_lines' in resolv_conf"
+  - set_fact:
+      final_dns_forwarders: "{{ dns_forwarders }}"
+    when: "'stdout_lines' not in resolv_conf"
+  - task: Print the DNS forwarders we will use
+    debug: var=final_dns_forwarders
+
+  roles:
+  - role: infra-ansible/roles/config-dns-server
+    print_dns_keys: True
+    named_config_recursion: 'yes'
+    named_config_views:
+    - name: "public"
+      recursion: 'yes'
+      # TODO(shadower): this seems to break recursion! Figure it out
+      #acl_entry: "{{ allowed_cidr }}"
+      zone:
+      - dns_domain: "{{ dns_domain }}"
+      default_forwarders: "{{ final_dns_forwarders }}"
