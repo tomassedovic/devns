@@ -1,0 +1,13 @@
+---
+
+- include: "prep.yml"
+
+- include: "infra-hosts.yml"
+
+- include: "infra-virt-hosts.yml"
+
+- include: "vm.yml"
+
+- include: "services.yml"
+
+- include: "lb-vms.yml"

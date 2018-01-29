@@ -1,0 +1,15 @@
+---
+
+# Make sure to run the "prep.yml" playbook before running this playbook
+
+- hosts: infra_vms
+  vars:
+    rhsm_username: "{{ hostvars['localhost'].rhsm_username }}"
+    rhsm_password: "{{ hostvars['localhost'].rhsm_password }}"
+  roles: 
+  - role: rhsm
+    no_log: True
+  tags:
+  - configure_rhsm
+
+

@@ -1,0 +1,22 @@
+---
+
+- name: "Prep the bastion host for Ansible runs"
+  hosts: bastion
+  gather_facts: no
+  roles:
+  - role: ansible/prep-for-ansible
+
+# NOTE: it's important that the docker role is done after the ipa-client role
+- name: 'Install and Configure the bastion host'
+  hosts: bastion
+  roles:
+  - role: config-timezone
+  - role: update-host
+  - role: config-ipa-client
+  - role: config-docker
+  - role: config-docker-compose
+  - role: config-gnome
+  - role: config-xfce
+  - role: config-lxde
+  - role: config-vnc-server
+  - role: config-tools
