@@ -38,6 +38,7 @@ as well.
 Run this command:
 
 ```
+source keystonerc  # Or whatever your OpenStack credentials file is called
 ansible-playbook --private-key ~/.ssh/openshift --user centos deploy.yaml -e @vars.yaml
 ```
 
@@ -53,7 +54,7 @@ Monday 29 January 2018  18:21:53 +0100 (0:00:01.437)       0:01:36.860 ********
 ok: [10.40.128.128 -> 10.40.128.128] => {
     "nsupdate_keys": {
         "public-openshift.example.com": {
-            "key_algorithm": "HMAC-SHA256", 
+            "key_algorithm": "HMAC-SHA256",
             "key_secret": "YuVcVQsLjKRX7qy9PKSwIdrroERVmS/3nSH0DyyzBU8="
         }
     }
