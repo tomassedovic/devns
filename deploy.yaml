@@ -3,9 +3,24 @@
   become: no
   gather_facts: no
   tasks:
+  - name: Create a network
+    os_network:
+      name: openshift-dns
+  - name: Create a subnet
+    os_subnet:
+      name: openshift-dns
+      network_name: openshift-dns
+      cidr: 192.168.23.0/24
+  - name: Create the router
+    os_router:
+      name: openshift-dns
+      network: "{{ external_network }}"
+      interfaces:
+      - openshift-dns
   - name: Create a server
     os_server:
       name: openshift-dns
+      network: openshift-dns
       auto_ip: yes
       flavor: "{{ flavor }}"
       image: "{{ image }}"

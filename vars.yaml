@@ -4,6 +4,12 @@
 # you change it, you must change the value here as well!
 dns_domain: openshift.example.com
 
+
+# openstack network list
+# NOTE: this is the network serving Floating IP addresses. It's often called
+# `external`, `public` or `ext-net`.
+external_network: public
+
 # openstack keypair list
 key_name: openshift
 
