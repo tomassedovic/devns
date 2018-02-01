@@ -6,11 +6,19 @@
   - name: Create a network
     os_network:
       name: openshift-dns
-  - name: Create a subnet
+  - name: Create a subnet without DNS forwarders
     os_subnet:
       name: openshift-dns
       network_name: openshift-dns
       cidr: 192.168.23.0/24
+    when: (dns_forwarders is not defined) or (not dns_forwarders)
+  - name: Create a subnet with DNS forwarders
+    os_subnet:
+      name: openshift-dns
+      network_name: openshift-dns
+      dns_nameservers: "{{ dns_forwarders }}"
+      cidr: 192.168.23.0/24
+    when: (dns_forwarders is defined) and dns_forwarders
   - name: Create the router
     os_router:
       name: openshift-dns
