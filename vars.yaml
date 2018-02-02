@@ -22,10 +22,6 @@ flavor: m1.small
 
 server_name: openshift-dns
 
-# openstack security group list
-# NOTE: must have ICMP and SSH (port 22) enabled!
-security_groups: [default]
-
 
 # NOTE: if you need to specify the forwarders, you can do it here. Otherwise,
 # we'll use whatever is in the server's /etc/resolv.conf
