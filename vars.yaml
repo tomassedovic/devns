@@ -19,6 +19,9 @@ image: centos7
 # openstack flavor list
 flavor: m1.small
 
+
+server_name: openshift-dns
+
 # openstack security group list
 # NOTE: must have ICMP and SSH (port 22) enabled!
 security_groups: [default]

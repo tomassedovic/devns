@@ -5,30 +5,30 @@
   tasks:
   - name: Create a network
     os_network:
-      name: openshift-dns
+      name: "{{ server_name }}"
   - name: Create a subnet without DNS forwarders
     os_subnet:
-      name: openshift-dns
-      network_name: openshift-dns
+      name: "{{ server_name }}"
+      network_name: "{{ server_name }}"
       cidr: 192.168.23.0/24
     when: (dns_forwarders is not defined) or (not dns_forwarders)
   - name: Create a subnet with DNS forwarders
     os_subnet:
-      name: openshift-dns
-      network_name: openshift-dns
+      name: "{{ server_name }}"
+      network_name: "{{ server_name }}"
       dns_nameservers: "{{ dns_forwarders }}"
       cidr: 192.168.23.0/24
     when: (dns_forwarders is defined) and dns_forwarders
   - name: Create the router
     os_router:
-      name: openshift-dns
+      name: "{{ server_name }}"
       network: "{{ external_network }}"
       interfaces:
-      - openshift-dns
+      - "{{ server_name }}"
   - name: Create a server
     os_server:
-      name: openshift-dns
-      network: openshift-dns
+      name: "{{ server_name }}"
+      network: "{{ server_name }}"
       auto_ip: yes
       flavor: "{{ flavor }}"
       image: "{{ image }}"
