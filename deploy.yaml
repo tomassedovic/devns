@@ -30,16 +30,19 @@
       name: "{{ server_name }}"
       description: Security group for the DNS server
   - name: Allow pinging the server
+    os_security_group_rule:
       security_group: "{{ server_name }}"
       protocol: icmp
       port_range_min: -1
       port_range_max: -1
   - name: Allow SSH access
+    os_security_group_rule:
       security_group: "{{ server_name }}"
       protocol: tcp
       port_range_min: 22
       port_range_max: 22
   - name: Allow DNS traffic
+    os_security_group_rule:
       security_group: "{{ server_name }}"
       protocol: udp
       port_range_min: 53
