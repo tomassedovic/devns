@@ -80,6 +80,7 @@
     setup:
   - name: Verify the server can access the internet
     command: ping -c 1 google.com
+    retries: 10
     when: (dns_forwarders is not defined) or (not dns_forwarders)
   - name: Read nameservers from /etc/resolv.conf
     command: "awk '/^nameserver/ { print $2; }' /etc/resolv.conf"
