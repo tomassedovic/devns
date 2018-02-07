@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  become: no
+  gather_facts: no
+  tasks:
+  - name: Delete the DNS server
+    os_server:
+      name: "{{ server_name }}"
+      state: absent
+
+  - name: Delete the DNS security group
+    os_security_group:
+      name: "{{ server_name }}"
+      state: absent
+
+  - name: Clear the DNS router interface
+    command: "openstack router remove subnet {{ server_name }} {{ server_name }}"
+    ignore_errors: yes
+
+  - name: Delete the DNS router
+    os_router:
+      name: "{{ server_name }}"
+      state: absent
+
+  - name: Delete the DNS network
+    os_network:
+      name: "{{ server_name }}"
+      state: absent
