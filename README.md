@@ -27,10 +27,8 @@ $ vi vars.yaml
 # Set: flavor
 ```
 
-Make sure your security group has SSH and ICMP enabled.
-
-The playbook has only been tested on CentOS 7, but it should work on RHEL 7
-as well.
+The playbook has only been tested on CentOS 7, but it should work on
+RHEL 7 as well.
 
 
 ### Deploy
@@ -39,18 +37,21 @@ Run this command:
 
 ```
 source keystonerc  # Or whatever your OpenStack credentials file is called
-ansible-playbook --private-key ~/.ssh/openshift --user centos deploy.yaml -e @vars.yaml
+ansible-playbook deploy.yaml -e @vars.yaml
 ```
 
-**NOTE:** the `--private-key` value depends on your SSH key setup and
-`--user` depends on your image (it's the cloud-init username).
+**NOTE:** if your SSH key is not `~/.ssh/id_rsa`, you need to pass
+`--private-key path/to/key` to `ansible-playbook`.
+
+**NOTE:** if your image's SSH user (the cloud-init username) is not
+`centos`, you need to pass `--user username` to `ansible-playbook`.
 
 After the playbook finishes, note the "Print configured keys" task. It should
 look something like this:
 
 ```
 TASK [infra-ansible/roles/config-dns-server : Print configured keys - if requested] ***********************************************************************************************************
-Monday 29 January 2018  18:21:53 +0100 (0:00:01.437)       0:01:36.860 ******** 
+Monday 29 January 2018  18:21:53 +0100 (0:00:01.437)       0:01:36.860 ********
 ok: [10.40.128.128 -> 10.40.128.128] => {
     "nsupdate_keys": {
         "public-openshift.example.com": {
