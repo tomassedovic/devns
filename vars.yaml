@@ -27,6 +27,9 @@ server_name: openshift-dns
 # we'll use whatever is in the server's /etc/resolv.conf
 dns_forwarders: []
 
+# NOTE: local paths to *.repo files to be copied to `/etc/yum.repos.d/`:
+additional_repo_files: []
+
 
 # TODO(shadower): this option doesn't do anything right now
 # NOTE: The default value lets anyone access the server. This can be bad if

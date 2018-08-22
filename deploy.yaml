@@ -96,6 +96,11 @@
     when: "'stdout_lines' not in resolv_conf"
   - task: Print the DNS forwarders we will use
     debug: var=final_dns_forwarders
+  - name: Copy additional repo files
+    copy:
+      src: "{{ item }}"
+      dest: "/etc/yum.repos.d/"
+    with_items: "{{ additional_repo_files }}"
 
   roles:
   - role: infra-ansible/roles/config-dns-server
